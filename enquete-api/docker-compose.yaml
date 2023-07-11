@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  api:
+    container_name: enquete-api
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    env_file: .env
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "yarn start:dev"
+
+  postgres:
+    container_name: postgres_enquete
+    image: postgres
+    env_file:
+      - '.env'
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:

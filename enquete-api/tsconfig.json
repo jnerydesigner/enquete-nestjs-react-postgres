@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "rootDir": "./",
+    "paths": {
+      "@application/*": ["./src/application/*"],
+      "@dtos/*": ["./src/application/DTOs/*"],
+      "@interfaces/*": ["./src/application/interfaces/*"],
+      "@data/*": ["./src/infra/data/*"],
+      "@repositories/*": ["./src/infra/data/repositories/*"],
+      "@services/*": ["./src/application/services/*"],
+      "@entities/*": ["./src/domain/entities/*"],
+      "@modules/*": ["./src/infra/modules/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@controllers/*": ["./src/presentation/api/controllers/*"],
+      "@test/*": ["./test/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@utils/*": ["./src/infra/utils/*"]
+    }
+  }
+}
