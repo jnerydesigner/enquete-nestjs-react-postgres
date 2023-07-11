@@ -10,15 +10,20 @@ services:
     ports:
       - "3000:3000"
     env_file: .env
+    networks:
+      - postgres
     volumes:
       - .:/usr/src/app
     command: sh -c "yarn start:dev"
+    depends_on:
+      - postgres
 
   postgres:
     container_name: postgres_enquete
     image: postgres
-    env_file:
-      - '.env'
+    environment:
+      - POSTGRES_PASSWORD=123456
+    env_file: .env
     volumes:
        - postgres:/data/postgres
     ports:

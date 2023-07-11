@@ -22,10 +22,11 @@
     "paths": {
       "@application/*": ["./src/application/*"],
       "@dtos/*": ["./src/application/DTOs/*"],
+      "@enum/*": ["./src/application/enums/*"],
       "@interfaces/*": ["./src/application/interfaces/*"],
+      "@services/*": ["./src/application/services/*"],
       "@data/*": ["./src/infra/data/*"],
       "@repositories/*": ["./src/infra/data/repositories/*"],
-      "@services/*": ["./src/application/services/*"],
       "@entities/*": ["./src/domain/entities/*"],
       "@modules/*": ["./src/infra/modules/*"],
       "@domain/*": ["./src/domain/*"],

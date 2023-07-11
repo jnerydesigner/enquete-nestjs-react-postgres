@@ -5,7 +5,7 @@ export class HelloController {
     @Get()
     hello() {
         return {
-            message: 'Hello',
+            message: 'Hello novamente de novo',
         };
     }
 }

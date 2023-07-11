@@ -1,9 +1,9 @@
 import { Config } from 'jest';
 import { pathsToModuleNameMapper } from 'ts-jest';
+
 import { compilerOptions } from './tsconfig.json';
 
 const config: Config = {
-    coverageReporters: ['cobertura', 'json', 'lcov', 'text'],
     moduleFileExtensions: ['js', 'json', 'ts'],
     testRegex: '.*\\.spec\\.ts$',
     transform: {
@@ -12,7 +12,7 @@ const config: Config = {
     collectCoverageFrom: ['**/*.(t|j)s'],
     coverageDirectory: '../coverage',
     testEnvironment: 'node',
-    testResultsProcessor: 'jest-sonar-reporter',
+
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
         prefix: '<rootDir>/',
     }),
