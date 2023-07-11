@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Author {
-  id_user    String   @id(map: "pk_user") @db.Uuid
-  name_user  String?  @db.VarChar(200)
-  email_user String?  @db.VarChar(200)
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  updated_at DateTime @default(now()) @db.Timestamp(6)
+  id_author    String    @id(map: "pk_user") @db.Uuid
+  name_author  String?   @db.VarChar(200)
+  email_author String?   @db.VarChar(200)
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+  updated_at   DateTime? @default(now()) @db.Timestamp(6)
 }
