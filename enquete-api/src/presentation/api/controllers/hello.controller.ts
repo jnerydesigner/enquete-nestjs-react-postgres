@@ -1,11 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from "@nestjs/common";
 
-@Controller('hello')
+@Controller("hello")
 export class HelloController {
-    @Get()
-    hello() {
-        return {
-            message: 'Hello novamente de novo',
-        };
-    }
+  @Get()
+  hello() {
+    return {
+      message: "Hello novamente de novo",
+    };
+  }
 }

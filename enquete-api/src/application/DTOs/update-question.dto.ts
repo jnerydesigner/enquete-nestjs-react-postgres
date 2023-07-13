@@ -1,9 +1,9 @@
 import { IsString } from "class-validator";
 
-export class CreateAuthorDto {
+export class UpdateQuestionDto {
   @IsString()
-  nameAuthor: string;
+  idQuestion: string;
 
   @IsString()
-  emailAuthor: string;
+  question: string;
 }

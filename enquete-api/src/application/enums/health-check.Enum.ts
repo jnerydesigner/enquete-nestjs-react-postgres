@@ -1,3 +1,3 @@
 export enum Logs {
-  OK = 'Aplication up',
+  OK = "Aplication up",
 }

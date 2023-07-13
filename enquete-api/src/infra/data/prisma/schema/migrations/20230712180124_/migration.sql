@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Answers" ALTER COLUMN "updated_at" DROP DEFAULT,
+ALTER COLUMN "updated_at" SET DATA TYPE TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE "Author" ALTER COLUMN "updated_at" DROP DEFAULT,
+ALTER COLUMN "updated_at" SET DATA TYPE TIMESTAMP(3);
+
+-- AlterTable
+ALTER TABLE "Questions" ALTER COLUMN "updated_at" DROP DEFAULT,
+ALTER COLUMN "updated_at" SET DATA TYPE TIMESTAMP(3);

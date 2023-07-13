@@ -1,6 +1,6 @@
-import { Logs } from '@application/enums/health-check.Enum';
-import { IHealthCheck } from '@application/interfaces/health-check.interface';
-import { Injectable, Logger } from '@nestjs/common';
+import { Logs } from "@application/enums/health-check.Enum";
+import { IHealthCheck } from "@application/interfaces/health-check.interface";
+import { Injectable, Logger } from "@nestjs/common";
 
 @Injectable()
 export class HealthCheckService {
@@ -11,6 +11,6 @@ export class HealthCheckService {
   getHealthCheck(): IHealthCheck {
     this.logger.log(Logs.OK);
 
-    return { message: 'ok' };
+    return { message: "ok" };
   }
 }

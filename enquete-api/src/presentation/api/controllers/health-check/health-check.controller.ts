@@ -1,9 +1,6 @@
-
-import { IHealthCheck } from '@application/interfaces/health-check.interface';
-import { HealthCheckService } from '@application/services/health-check.service';
-import { Controller, Get, Logger } from '@nestjs/common';
-
-
+import { IHealthCheck } from "@application/interfaces/health-check.interface";
+import { HealthCheckService } from "@application/services/health-check.service";
+import { Controller, Get, Logger } from "@nestjs/common";
 
 @Controller()
 export class HealthCheckController {
@@ -12,7 +9,7 @@ export class HealthCheckController {
     this.logger = new Logger(HealthCheckController.name);
   }
 
-  @Get('/health-check')
+  @Get("/health-check")
   getHello(): IHealthCheck {
     return this.appService.getHealthCheck();
   }

@@ -15,5 +15,31 @@ model Author {
   name_author  String?   @db.VarChar(200)
   email_author String?   @db.VarChar(200)
   created_at   DateTime? @default(now()) @db.Timestamp(6)
-  updated_at   DateTime? @default(now()) @db.Timestamp(6)
+  updated_at   DateTime? @updatedAt
+}
+
+model Questions {
+  id_question        String          @id() @db.Uuid
+  question           String
+  expiration_date    DateTime?       @db.Timestamp(6)
+  created_at         DateTime?       @default(now()) @db.Timestamp(6)
+  updated_at         DateTime?       @updatedAt
+  status             StatusQuestion? @relation(fields: [id_status_question], references: [id_status_question])
+  answers            Answers[]
+  id_status_question Int?
+}
+
+model Answers {
+  id_answer   String     @id() @db.Uuid
+  answer      String
+  created_at  DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at  DateTime?  @updatedAt
+  Questions   Questions? @relation(fields: [question_id], references: [id_question])
+  question_id String?    @db.Uuid
+}
+
+model StatusQuestion {
+  id_status_question Int         @id() @default(autoincrement())
+  status             String
+  Questions          Questions[]
 }
