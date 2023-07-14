@@ -12,4 +12,5 @@ export abstract class QuestionPrismaRepositoryImplements {
     question: string,
   ): Promise<QuestionEntity>;
   abstract findQuestionById(id: string): Promise<QuestionEntity>;
+  abstract deleteQuestion(id: string): Promise<void>;
 }

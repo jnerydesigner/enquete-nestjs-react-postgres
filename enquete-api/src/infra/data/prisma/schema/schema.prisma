@@ -25,6 +25,7 @@ model Questions {
   created_at         DateTime?       @default(now()) @db.Timestamp(6)
   updated_at         DateTime?       @updatedAt
   status             StatusQuestion? @relation(fields: [id_status_question], references: [id_status_question])
+  votes              Votes[]
   answers            Answers[]
   id_status_question Int?
 }
@@ -36,10 +37,22 @@ model Answers {
   updated_at  DateTime?  @updatedAt
   Questions   Questions? @relation(fields: [question_id], references: [id_question])
   question_id String?    @db.Uuid
+  Votes       Votes[]
 }
 
 model StatusQuestion {
   id_status_question Int         @id() @default(autoincrement())
   status             String
   Questions          Questions[]
+}
+
+model Votes {
+  id_vote     Int        @id() @default(autoincrement())
+  vote        Int
+  Questions   Questions? @relation(fields: [question_id], references: [id_question])
+  Answers     Answers?   @relation(fields: [answer_id], references: [id_answer])
+  question_id String?    @db.Uuid
+  answer_id   String?    @db.Uuid
+  created_at  DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at  DateTime?  @updatedAt
 }

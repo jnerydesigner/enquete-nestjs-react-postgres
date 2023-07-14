@@ -9,6 +9,8 @@ export interface IQuestion {
   idStatusQuestion?: StatusQuestionEnum;
   createdAt?: Date;
   updatedAt?: Date;
-  status?: StatusQuestionEntity;
+  status?: string;
+  countRowsAnswers?: number;
+  countTotalVotes?: number;
   answers?: AnswerEntity[];
 }

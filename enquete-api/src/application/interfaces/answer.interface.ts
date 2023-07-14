@@ -6,5 +6,6 @@ export interface IAnswer {
   createdAt?: Date;
   updatedAt?: Date;
   idQuestion?: string;
+  countVotes?: number;
   questions?: QuestionEntity;
 }

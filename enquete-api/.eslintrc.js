@@ -6,12 +6,13 @@ module.exports = {
       tsconfigRootDir: __dirname,
       sourceType: 'module',
     },
-    plugins: ['sonarjs', '@typescript-eslint', 'etc'],
+    plugins: ['sonarjs', '@typescript-eslint', 'etc', 'prettier', 'eslint-plugin-import-helpers'],
     extends: [
       'airbnb-base',
       'plugin:@typescript-eslint/recommended',
       'plugin:prettier/recommended',
       'plugin:sonarjs/recommended',
+      'prettier'
     ],
     root: true,
     env: {
@@ -45,7 +46,19 @@ module.exports = {
       'no-restricted-syntax': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'no-empty-function': 'off',
-      'sonarjs/no-duplicate-string': 'off'
+      'sonarjs/no-duplicate-string': 'off',
+      'import-helpers/order-imports': [
+        'warn',
+        { // example configuration
+            newlinesBetween: 'always',
+            groups: [
+                'module',
+                '/^@shared/',
+                ['parent', 'sibling', 'index'],
+            ],
+            alphabetize: { order: 'asc', ignoreCase: true },
+        },
+    ],
     },
   };
   

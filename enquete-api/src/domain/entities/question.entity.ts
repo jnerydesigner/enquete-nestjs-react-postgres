@@ -1,6 +1,7 @@
+import { StatusQuestionEnum } from "@application/enums/status-question.enum";
 import { IQuestion } from "@application/interfaces/question.interface";
 import * as crypto from "node:crypto";
-import { StatusQuestionEnum } from "@application/enums/status-question.enum";
+
 import { AnswerEntity } from "./answer.entity";
 import { StatusQuestionEntity } from "./status-question.entity";
 
@@ -11,8 +12,10 @@ export class QuestionEntity {
   private updatedAt?: Date;
   private expirationDate?: Date;
   private idStatusQuestion: StatusQuestionEnum;
-  private status?: StatusQuestionEntity;
+  private status?: string;
+  private countTotalVotes?: number;
   private answers: AnswerEntity[];
+  private countRowsAnswers?: number;
   constructor(question: IQuestion) {
     this.createUUID(question.idQuestion);
     this.setQuestion = question.question;
@@ -25,6 +28,8 @@ export class QuestionEntity {
     this.setIdStatusQuestion = question.idStatusQuestion;
     this.status = question.status;
     this.answers = question.answers;
+    this.countRowsAnswers = question.countRowsAnswers;
+    this.countTotalVotes = question.countTotalVotes;
   }
 
   createUUID(idQuestion: string) {

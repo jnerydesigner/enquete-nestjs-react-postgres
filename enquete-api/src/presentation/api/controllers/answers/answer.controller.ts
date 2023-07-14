@@ -1,8 +1,17 @@
 import { CreateAnswerDto } from "@application/DTOs/create-answer.dto";
+import { CreateVoteDto } from "@application/DTOs/create-vote.dto";
 import { UpdateAnswerDto } from "@application/DTOs/udpate-answer.dto";
 import { AnswerService } from "@application/services/answer.service";
 import { AnswerMapper } from "@data/prisma/mapper/answer.mapper";
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
 
 @Controller("answers")
 export class AnswerController {
@@ -26,5 +35,15 @@ export class AnswerController {
   @Put(":id/update")
   updateAnswer(@Param("id") id: string, @Body() body: UpdateAnswerDto) {
     return this.answerService.updateAnswer(id, body);
+  }
+
+  @Put("vote")
+  voteAnswer(@Body() body: CreateVoteDto) {
+    return this.answerService.voteAnswer(body);
+  }
+
+  @Delete(":id/delete")
+  deleteAnswer(@Param("id") id: string) {
+    return this.answerService.deleteAnswer(id);
   }
 }

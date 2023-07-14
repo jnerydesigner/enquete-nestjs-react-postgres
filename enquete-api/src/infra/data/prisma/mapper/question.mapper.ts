@@ -1,8 +1,9 @@
+import { CreateQuestionDto } from "@application/DTOs/create-question.dto";
+import { StatusQuestionEnum } from "@application/enums/status-question.enum";
 import { IQuestion } from "@application/interfaces/question.interface";
 import { QuestionEntity } from "@entities/question.entity";
 import { Questions as RawQuestion, Prisma } from "@prisma/client";
-import { CreateQuestionDto } from "@application/DTOs/create-question.dto";
-import { StatusQuestionEnum } from "@application/enums/status-question.enum";
+
 import { AnswerMapper } from "./answer.mapper";
 
 export type QuestionWithAnswer = Prisma.QuestionsGetPayload<{
@@ -12,6 +13,12 @@ export type QuestionWithAnswer = Prisma.QuestionsGetPayload<{
       select: {
         id_status_question: true;
         status: true;
+      };
+    };
+    votes: {
+      select: {
+        vote: true;
+        answer_id: true;
       };
     };
   };
@@ -33,8 +40,6 @@ export class QuestionMapper {
     return new QuestionEntity({
       idQuestion: question.id_question,
       question: question.question,
-      createdAt: question.created_at,
-      updatedAt: question.updated_at,
       expirationDate: question.expiration_date,
       idStatusQuestion: question.id_status_question,
     });
@@ -66,16 +71,40 @@ export class QuestionMapper {
     return new QuestionEntity({
       idQuestion: question.id_question,
       question: question.question,
-      createdAt: question.created_at,
-      updatedAt: question.updated_at,
       expirationDate: question.expiration_date,
       idStatusQuestion: question.id_status_question,
-      status: {
-        idStatusQuestion: question.status.id_status_question,
-        status: question.status.status,
-      },
+      status: question.status.status,
       answers: question.answers.map((answer) => {
-        return AnswerMapper.toDomain(answer);
+        return AnswerMapper.toDomainNotDate(answer);
+      }),
+    });
+  }
+
+  static toDomainWithAnswerCount(
+    question: QuestionWithAnswer,
+    countAnswer: number,
+    totalVotes: number,
+  ): QuestionEntity {
+    return new QuestionEntity({
+      idQuestion: question.id_question,
+      question: question.question,
+      expirationDate: question.expiration_date,
+      idStatusQuestion: question.id_status_question,
+      status: question.status.status,
+      countRowsAnswers: countAnswer,
+      countTotalVotes: totalVotes,
+      answers: question.answers.map((answer) => {
+        if (!question.votes || question.votes === null) {
+          return AnswerMapper.toDomainNotDate(answer, 0);
+        }
+        const answerCountTotal = question.votes?.find(
+          (f) => f.answer_id === answer.id_answer,
+        );
+
+        if (answerCountTotal === undefined) {
+          return AnswerMapper.toDomainNotDate(answer, 0);
+        }
+        return AnswerMapper.toDomainNotDate(answer, answerCountTotal.vote);
       }),
     });
   }

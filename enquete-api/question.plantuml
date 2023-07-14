@@ -1,0 +1,31 @@
+@startjson Criação de uma enquete
+{
+		"idQuestion": "e04acfd4-7402-46a5-ae0f-896736b00026",
+		"question": "Você investe na Bolsa de Valores",
+		"expirationDate": "2023-07-23T18:50:22.059Z",
+		"idStatusQuestion": 1,
+		"status": "Ativa",
+        "qtdVotesEnquete": 10,
+		"countRowsAnswers": 3,
+		"answers": [
+			{
+				"idAnswer": "5174e178-cefc-42da-b1c9-c6ee10681477",
+				"idQuestion": "e04acfd4-7402-46a5-ae0f-896736b00026",
+				"answer": "Sim",
+                "qtdVotes": 5
+			},
+			{
+				"idAnswer": "d65568c9-0ff4-48d9-8f30-2fcc1bc3e2af",
+				"idQuestion": "e04acfd4-7402-46a5-ae0f-896736b00026",
+				"answer": "Não",
+                "qtdVotes": 4
+			},
+			{
+				"idAnswer": "7caa3bd6-efae-420a-986b-945405e85d8a",
+				"idQuestion": "e04acfd4-7402-46a5-ae0f-896736b00026",
+				"answer": "Talvez",
+                "qtdVotes": 1
+			}
+		]
+	}
+@endjson

@@ -8,7 +8,7 @@ import { Injectable } from "@nestjs/common";
 export class QuestionService {
   constructor(
     private readonly questionRepository: QuestionPrismaRepositoryImplements,
-  ) {}
+  ) { }
 
   createQuestion(question: QuestionEntity) {
     return this.questionRepository.createQuestion(question);
@@ -34,5 +34,9 @@ export class QuestionService {
 
   findQuestionById(id: string) {
     return this.questionRepository.findQuestionById(id);
+  }
+
+  deleteQuestion(id: string) {
+    return this.questionRepository.deleteQuestion(id);
   }
 }

@@ -1,0 +1,39 @@
+	
+@startuml
+' hide the spot
+' hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "Question" as q01 {
+  * idQuestion : string <<generated>>
+  --
+  * answers
+}
+
+entity "Answers" as a01 {
+  * idAnswer : string <<generated>>
+  --
+  * idQuestion : string <<FK>>
+}
+entity "Votes" as v01{
+  * idVotes : integer
+  __
+  idQuestion: integer <<FK>>
+  idAnswer: integer <<FK>>
+  vote : integer
+}
+
+q01 ||..|| a01
+q01 ||..|| v01
+a01 ||..|| v01
+@enduml
+
+
+private idAnswer: string | null;
+  private answer: string;
+  private createdAt?: Date;
+  private updatedAt?: Date;
+  private idQuestion?: string;
+  private questions?: QuestionEntity;

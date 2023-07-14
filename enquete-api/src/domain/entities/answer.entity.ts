@@ -1,5 +1,6 @@
 import { IAnswer } from "@application/interfaces/answer.interface";
 import * as crypto from "node:crypto";
+
 import { QuestionEntity } from "./question.entity";
 
 export class AnswerEntity {
@@ -8,6 +9,7 @@ export class AnswerEntity {
   private createdAt?: Date;
   private updatedAt?: Date;
   private idQuestion?: string;
+  private countVotes?: number;
   private questions?: QuestionEntity;
   constructor(answer: IAnswer) {
     this.createUUID(answer.idAnswer);
@@ -16,6 +18,7 @@ export class AnswerEntity {
     this.setCreatedAt = answer.createdAt;
     this.setUpdatedAt = answer.updatedAt;
     this.questions = answer.questions;
+    this.countVotes = answer.countVotes;
   }
 
   createUUID(idAnswer: string) {

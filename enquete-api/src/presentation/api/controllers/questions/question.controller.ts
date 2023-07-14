@@ -3,11 +3,19 @@ import { FinalizedDto } from "@application/DTOs/finalized.dto";
 import { UpdateQuestionDto } from "@application/DTOs/update-question.dto";
 import { QuestionService } from "@application/services/question.service";
 import { QuestionMapper } from "@data/prisma/mapper/question.mapper";
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
 
 @Controller("questions")
 export class QuestionController {
-  constructor(private readonly questionService: QuestionService) {}
+  constructor(private readonly questionService: QuestionService) { }
 
   @Post()
   createQuestion(@Body() body: CreateQuestionDto) {
@@ -33,5 +41,10 @@ export class QuestionController {
   @Put("/update-enquete")
   updateEnquete(@Body() body: UpdateQuestionDto) {
     return this.questionService.updateQuestion(body);
+  }
+
+  @Delete(":id/delete")
+  deleteQuestion(@Param("id") id: string) {
+    return this.questionService.deleteQuestion(id);
   }
 }

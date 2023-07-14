@@ -1,7 +1,12 @@
 import { CreateAnswerDto } from "@application/DTOs/create-answer.dto";
 import { IAnswer } from "@application/interfaces/answer.interface";
 import { AnswerEntity } from "@entities/answer.entity";
-import { Answers as RawAnswer, Prisma } from "@prisma/client";
+import {
+  Answers as RawAnswer,
+  Prisma,
+  Votes as RawVotes,
+} from "@prisma/client";
+
 import { QuestionMapper } from "./question.mapper";
 
 export type AnswerWithQuestion = Prisma.AnswersGetPayload<{
@@ -21,13 +26,15 @@ export class AnswerMapper {
     };
   }
 
-  static toDomain(answer: RawAnswer): AnswerEntity {
+  static toDomainNotDate(
+    answer: RawAnswer,
+    countVotes: number = null,
+  ): AnswerEntity {
     return new AnswerEntity({
       idAnswer: answer.id_answer,
       idQuestion: answer.question_id,
       answer: answer.answer,
-      createdAt: answer.created_at,
-      updatedAt: answer.updated_at,
+      countVotes,
     });
   }
 
@@ -51,13 +58,15 @@ export class AnswerMapper {
     });
   }
 
-  static toDomainWithQuestion(answer: AnswerWithQuestion): AnswerEntity {
+  static toDomainWithQuestion(
+    answer: AnswerWithQuestion,
+    countVotes: number = null,
+  ): AnswerEntity {
     return new AnswerEntity({
       idAnswer: answer.id_answer,
       idQuestion: answer.question_id,
       answer: answer.answer,
-      createdAt: answer.created_at,
-      updatedAt: answer.updated_at,
+      countVotes,
       questions: QuestionMapper.toDomain(answer.Questions),
     });
   }

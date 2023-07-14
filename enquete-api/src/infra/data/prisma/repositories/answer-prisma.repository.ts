@@ -1,14 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { AnswerEntity } from "@entities/answer.entity";
-import { AnswerPrismaRepositoryImplements } from "./implements/answer-prisma-repository.implements";
-import { AnswerMapper } from "../mapper/answer.mapper";
+import { VoteEntity } from "@entities/vote.entity";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+
 import { PrismaService } from "../client/prisma.service";
+import { AnswerMapper } from "../mapper/answer.mapper";
+import { VoteMapper } from "../mapper/vote.mapper";
+import { AnswerPrismaRepositoryImplements } from "./implements/answer-prisma-repository.implements";
 
 @Injectable()
 export class AnswerPrismaRepository
   implements AnswerPrismaRepositoryImplements
 {
   constructor(private readonly prismaService: PrismaService) {}
+
   async findAnswerById(id: string): Promise<AnswerEntity> {
     const findAnswer = await this.prismaService.answers.findFirst({
       where: {
@@ -23,7 +27,14 @@ export class AnswerPrismaRepository
       );
     }
 
-    return AnswerMapper.toDomain(findAnswer);
+    const votes = await this.prismaService.votes.findFirst({
+      where: {
+        answer_id: findAnswer.id_answer,
+        question_id: findAnswer.question_id,
+      },
+    });
+
+    return AnswerMapper.toDomainNotDate(findAnswer, votes.vote);
   }
   async updateAnswer(id: string, answer: string): Promise<AnswerEntity> {
     const updateAnswer = await this.prismaService.answers.update({
@@ -35,7 +46,7 @@ export class AnswerPrismaRepository
       },
     });
 
-    return AnswerMapper.toDomain(updateAnswer);
+    return AnswerMapper.toDomainNotDate(updateAnswer);
   }
   async findAll(): Promise<AnswerEntity[]> {
     const find = await this.prismaService.answers.findMany({
@@ -44,9 +55,17 @@ export class AnswerPrismaRepository
       },
     });
 
-    return find.map((answer) => {
-      return AnswerMapper.toDomainWithQuestion(answer);
-    });
+    return Promise.all(
+      find.map(async (answer) => {
+        const sumVotesAnswer = await this.prismaService.votes.findFirst({
+          where: {
+            answer_id: answer.id_answer,
+            question_id: answer.question_id,
+          },
+        });
+        return AnswerMapper.toDomainWithQuestion(answer, sumVotesAnswer.vote);
+      }),
+    );
   }
   async createAnswer(answer: AnswerEntity): Promise<AnswerEntity> {
     const answerToPrisma = AnswerMapper.toPrisma(answer);
@@ -55,6 +74,64 @@ export class AnswerPrismaRepository
       data: answerToPrisma,
     });
 
-    return AnswerMapper.toDomain(response);
+    return AnswerMapper.toDomainNotDate(response);
+  }
+
+  async deleteAnswer(id: string): Promise<void> {
+    const findAnswer = await this.prismaService.answers.findFirst({
+      where: {
+        id_answer: id,
+      },
+    });
+
+    if (!findAnswer) {
+      throw new HttpException(
+        "Questions don´t no exists",
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    await this.prismaService.answers.delete({
+      where: {
+        id_answer: id,
+      },
+    });
+  }
+
+  async voteAnswer(vote: VoteEntity): Promise<VoteEntity> {
+    let voteExists = await this.prismaService.votes.findFirst({
+      where: {
+        answer_id: vote.idAnswer,
+        question_id: vote.idQuestion,
+      },
+    });
+
+    if (!voteExists) {
+      await this.prismaService.votes.create({
+        data: {
+          vote: 1,
+          answer_id: vote.idAnswer,
+          question_id: vote.idQuestion,
+        },
+      });
+    } else {
+      await this.prismaService.votes.update({
+        where: {
+          id_vote: voteExists.id_vote,
+        },
+        data: {
+          vote: voteExists.vote + 1,
+        },
+      });
+    }
+
+    voteExists = await this.prismaService.votes.findFirst({
+      where: {
+        answer_id: vote.idAnswer,
+        question_id: vote.idQuestion,
+      },
+    });
+
+    return VoteMapper.toDomain(voteExists);
   }
 }
