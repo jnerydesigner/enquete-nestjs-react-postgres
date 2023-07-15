@@ -127,10 +127,6 @@ export class QuestionPrismaRepository
       },
     });
 
-    // for await (const question of response) {
-    //   console.log(question.votes);
-    // }
-
     return Promise.all(
       response.map(async (question) => {
         const votesReduce = question.votes.reduce((acc, cur) => {
