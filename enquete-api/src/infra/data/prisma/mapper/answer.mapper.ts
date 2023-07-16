@@ -12,6 +12,13 @@ import { QuestionMapper } from "./question.mapper";
 export type AnswerWithQuestion = Prisma.AnswersGetPayload<{
   include: {
     Questions: true;
+    Votes: {
+      select: {
+        answer_id: true;
+        question_id: true;
+        vote: true;
+      };
+    };
   };
 }>;
 
@@ -66,25 +73,10 @@ export class AnswerMapper {
       idAnswer: answer.id_answer,
       idQuestion: answer.question_id,
       answer: answer.answer,
-      countVotes,
+      countVotes: answer.Votes.find(
+        (vote) => vote.answer_id === answer.id_answer,
+      )?.vote,
       questions: QuestionMapper.toDomain(answer.Questions),
     });
   }
-
-  // static toDomainWithAnswer(question: QuestionWithAnswer): QuestionEntity {
-  //     return new QuestionEntity({
-  //         idQuestion: question.id_question,
-  //         question: question.question,
-  //         createdAt: question.created_at,
-  //         updatedAt: question.updated_at,
-  //         answers: question.answers
-  //     })
-  // }
 }
-
-// id_answer: '7cd9691d-a16a-4660-a117-5c8f30ee5eec',
-// enquete-api       |     answer: 'Vamos testar a Answer',
-// enquete-api       |     created_at: 2023-07-12T21:19:42.437Z,
-// enquete-api       |     updated_at: 2023-07-12T21:19:42.437Z,
-// enquete-api       |     question_id: '87aa8cec-9269-4a00-892b-e334f9be6dd2',
-// enquete-api       |     Questions: { question: 'Atualizando a Question Novamente'

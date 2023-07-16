@@ -75,7 +75,10 @@ export class QuestionMapper {
       idStatusQuestion: question.id_status_question,
       status: question.status.status,
       answers: question.answers.map((answer) => {
-        return AnswerMapper.toDomainNotDate(answer);
+        const vote = question.votes.find(
+          (vote) => vote.answer_id === answer.id_answer,
+        );
+        return AnswerMapper.toDomainNotDate(answer, vote.vote);
       }),
     });
   }

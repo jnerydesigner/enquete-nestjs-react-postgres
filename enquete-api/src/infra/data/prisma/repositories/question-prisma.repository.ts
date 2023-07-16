@@ -34,7 +34,6 @@ export class QuestionPrismaRepository
         HttpStatus.NOT_FOUND,
       );
     }
-
     return QuestionMapper.toDomainWithAnswer(questionExists);
   }
   async updateQuestion(
@@ -145,22 +144,6 @@ export class QuestionPrismaRepository
             question_id: question.id_question,
           },
         });
-        // const totalVotes = await this.prismaService.votes.groupBy({
-        //   where: { question_id: question.id_question },
-        //   by: ["question_id"],
-        //   _sum: {
-        //     vote: true,
-        //   },
-        // });
-
-        // const totalVote = totalVotes.map((count) => {
-        //   if (count.question_id === question.id_question) {
-        //     // eslint-disable-next-line no-underscore-dangle
-        //     return count._sum;
-        //   }
-
-        //   return null;
-        // });
 
         return QuestionMapper.toDomainWithAnswerCount(
           question,

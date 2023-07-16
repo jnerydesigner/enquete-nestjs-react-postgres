@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const ContainerContent = styled.div`
   width: 90%;
-  height: 90vh;
+  height: auto;
   background-color: #dfe6e9;
 
   padding: 10px;
@@ -64,11 +64,18 @@ export const ContainerQtdAndAnswer = styled.div`
 
 export const ContainerGraphics = styled.div`
   width: 100%;
-  height: 400px;
-  margin: 10px 0;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  div {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 `;
 
 export const QtdVotes = styled.div`

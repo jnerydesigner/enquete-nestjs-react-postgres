@@ -5,7 +5,7 @@ import { QuestionPrismaRepositoryImplements } from "@data/prisma/repositories/im
 import { UsersPrismaRepositoryImplements } from "@data/prisma/repositories/implements/users-prisma-repository.implements";
 import { QuestionPrismaRepository } from "@data/prisma/repositories/question-prisma.repository";
 import { UsersPrismaRepository } from "@data/prisma/repositories/users-prisma.repository";
-import { Global, Module } from "@nestjs/common";
+import { Global, Logger, Module } from "@nestjs/common";
 
 @Global()
 @Module({
@@ -23,6 +23,7 @@ import { Global, Module } from "@nestjs/common";
       provide: AnswerPrismaRepositoryImplements,
       useClass: AnswerPrismaRepository,
     },
+    Logger,
   ],
   exports: [
     {

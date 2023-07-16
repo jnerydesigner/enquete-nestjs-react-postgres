@@ -1,6 +1,6 @@
 import { AnswerEntity } from "@entities/answer.entity";
 import { VoteEntity } from "@entities/vote.entity";
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
 
 import { PrismaService } from "../client/prisma.service";
 import { AnswerMapper } from "../mapper/answer.mapper";
@@ -11,7 +11,10 @@ import { AnswerPrismaRepositoryImplements } from "./implements/answer-prisma-rep
 export class AnswerPrismaRepository
   implements AnswerPrismaRepositoryImplements
 {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private logger: Logger,
+  ) {}
 
   async findAnswerById(id: string): Promise<AnswerEntity> {
     const findAnswer = await this.prismaService.answers.findFirst({
@@ -52,18 +55,21 @@ export class AnswerPrismaRepository
     const find = await this.prismaService.answers.findMany({
       include: {
         Questions: true,
+        Votes: {
+          select: {
+            answer_id: true,
+            question_id: true,
+            vote: true,
+          },
+        },
       },
     });
 
+    this.logger.log(find);
+
     return Promise.all(
       find.map(async (answer) => {
-        const sumVotesAnswer = await this.prismaService.votes.findFirst({
-          where: {
-            answer_id: answer.id_answer,
-            question_id: answer.question_id,
-          },
-        });
-        return AnswerMapper.toDomainWithQuestion(answer, sumVotesAnswer.vote);
+        return AnswerMapper.toDomainWithQuestion(answer);
       }),
     );
   }
@@ -72,6 +78,13 @@ export class AnswerPrismaRepository
 
     const response = await this.prismaService.answers.create({
       data: answerToPrisma,
+    });
+    await this.prismaService.votes.create({
+      data: {
+        answer_id: answerToPrisma.id_answer,
+        question_id: answerToPrisma.question_id,
+        vote: 0,
+      },
     });
 
     return AnswerMapper.toDomainNotDate(response);

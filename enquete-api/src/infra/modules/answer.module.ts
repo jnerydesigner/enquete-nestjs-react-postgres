@@ -1,9 +1,9 @@
 import { AnswerService } from "@application/services/answer.service";
 import { AnswerController } from "@controllers/answers/answer.controller";
-import { Module } from "@nestjs/common";
+import { Logger, Module } from "@nestjs/common";
 
 @Module({
   controllers: [AnswerController],
-  providers: [AnswerService],
+  providers: [AnswerService, Logger],
 })
 export class AnswerModule {}
