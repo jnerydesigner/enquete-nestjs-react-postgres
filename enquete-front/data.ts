@@ -1,27 +1,24 @@
-const Data: Array<[string, number | string]> = [
-  ['1', '1'],
-  ['Sim', 20],
-  ['Não', 30],
-  ['Tavez', 20],
-];
+// import { v4 as uuid } from 'uuid';
 
-const arrTitle: any = ['1', '1'];
-const arrDta01 = ['Não', 30];
-const arrDta02 = ['Sim', 20];
-const arrDta03 = ['Tavez', 20];
-const arrGeneral: [] = [];
-Data.map((d) => {
-  return d;
-});
+// function sortearUUID(): string {
+//   const registros: string[] = [];
 
-const createDataArray = (): Array<[string, number | string]> => {
-  const Data: Array<[string, number | string]> = [
-    ['Você investe na Bolsa de Valores', '1'],
-    ['Sim', 20],
-    ['Não', 30],
-  ];
+//   // Gerar 100 UUIDs e adicioná-los aos registros
+//   for (let i = 0; i < 100; i++) {
+//     registros.push(uuid());
+//   }
 
-  return Data;
-};
+//   // Sortear um índice aleatório dos registros
+//   const indiceSorteado = sortearNumero() - 1;
 
-createDataArray();
+//   // Retornar o UUID sorteado
+//   return registros[indiceSorteado];
+// }
+
+// function sortearNumero(): number {
+//   return Math.floor(Math.random() * 100) + 1;
+// }
+
+// // Exemplo de uso
+// const uuidSorteado = sortearUUID();
+// console.log(uuidSorteado);

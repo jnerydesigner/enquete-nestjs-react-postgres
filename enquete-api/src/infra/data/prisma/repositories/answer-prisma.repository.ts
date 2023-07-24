@@ -79,7 +79,7 @@ export class AnswerPrismaRepository
     const response = await this.prismaService.answers.create({
       data: answerToPrisma,
     });
-    await this.prismaService.votes.create({
+    const responseVotes = await this.prismaService.votes.create({
       data: {
         answer_id: answerToPrisma.id_answer,
         question_id: answerToPrisma.question_id,
@@ -87,7 +87,7 @@ export class AnswerPrismaRepository
       },
     });
 
-    return AnswerMapper.toDomainNotDate(response);
+    return AnswerMapper.toDomainNotDate(response, responseVotes.vote);
   }
 
   async deleteAnswer(id: string): Promise<void> {

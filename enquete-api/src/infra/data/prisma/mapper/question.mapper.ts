@@ -12,13 +12,24 @@ export type QuestionWithAnswer = Prisma.QuestionsGetPayload<{
     status: {
       select: {
         id_status_question: true;
-        status: true;
+        status_question: true;
       };
     };
     votes: {
       select: {
         vote: true;
         answer_id: true;
+      };
+    };
+  };
+}>;
+
+export type QuestionWithStatus = Prisma.QuestionsGetPayload<{
+  include: {
+    status: {
+      select: {
+        id_status_question: true;
+        status_question: true;
       };
     };
   };
@@ -73,13 +84,23 @@ export class QuestionMapper {
       question: question.question,
       expirationDate: question.expiration_date,
       idStatusQuestion: question.id_status_question,
-      status: question.status.status,
+      statusQuestion: question.status.status_question,
       answers: question.answers.map((answer) => {
         const vote = question.votes.find(
           (vote) => vote.answer_id === answer.id_answer,
         );
         return AnswerMapper.toDomainNotDate(answer, vote.vote);
       }),
+    });
+  }
+
+  static toDomainWithStatus(question: QuestionWithStatus): QuestionEntity {
+    return new QuestionEntity({
+      idQuestion: question.id_question,
+      question: question.question,
+      expirationDate: question.expiration_date,
+      idStatusQuestion: question.status.id_status_question,
+      statusQuestion: question.status.status_question,
     });
   }
 
@@ -93,7 +114,7 @@ export class QuestionMapper {
       question: question.question,
       expirationDate: question.expiration_date,
       idStatusQuestion: question.id_status_question,
-      status: question.status.status,
+      statusQuestion: question.status.status_question,
       countRowsAnswers: countAnswer,
       countTotalVotes: totalVotes,
       answers: question.answers.map((answer) => {

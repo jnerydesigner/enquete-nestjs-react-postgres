@@ -1,3 +1,4 @@
+import { ChangeStatusDTO } from "@application/DTOs/change-status.cto";
 import { FinalizedDto } from "@application/DTOs/finalized.dto";
 import { UpdateQuestionDto } from "@application/DTOs/update-question.dto";
 import { QuestionPrismaRepositoryImplements } from "@data/prisma/repositories/implements/question-prisma-repository.implements";
@@ -8,7 +9,7 @@ import { Injectable } from "@nestjs/common";
 export class QuestionService {
   constructor(
     private readonly questionRepository: QuestionPrismaRepositoryImplements,
-  ) { }
+  ) {}
 
   createQuestion(question: QuestionEntity) {
     return this.questionRepository.createQuestion(question);
@@ -38,5 +39,9 @@ export class QuestionService {
 
   deleteQuestion(id: string) {
     return this.questionRepository.deleteQuestion(id);
+  }
+
+  changeStatus(request: ChangeStatusDTO) {
+    return this.questionRepository.changeStatusQuestion(request.idQuestion);
   }
 }

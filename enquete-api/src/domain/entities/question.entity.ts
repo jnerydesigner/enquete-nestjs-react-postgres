@@ -12,21 +12,21 @@ export class QuestionEntity {
   private updatedAt?: Date;
   private expirationDate?: Date;
   private idStatusQuestion: StatusQuestionEnum;
-  private status?: string;
+  private statusQuestion?: string;
   private countTotalVotes?: number;
   private answers: AnswerEntity[];
   private countRowsAnswers?: number;
   constructor(question: IQuestion) {
     this.createUUID(question.idQuestion);
     this.setQuestion = question.question;
-    this.setCreatedAt = question.createdAt;
-    this.setUpdatedAt = question.updatedAt;
-    this.setExpirationDate =
-      this.getExpirationDate === null
-        ? this.getExpirationDate
-        : this.adicionarDias(new Date(), 10);
+    this.setCreatedAt =
+      question.createdAt !== undefined ? question.createdAt : this.getCreatedAt;
+    this.setUpdatedAt = question.updatedAt ? question.updatedAt : new Date();
+    this.setExpirationDate = question.expirationDate
+      ? question.expirationDate
+      : this.adicionarDias(new Date(), 10);
     this.setIdStatusQuestion = question.idStatusQuestion;
-    this.status = question.status;
+    this.statusQuestion = question.statusQuestion;
     this.answers = question.answers;
     this.countRowsAnswers = question.countRowsAnswers;
     this.countTotalVotes = question.countTotalVotes;

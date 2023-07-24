@@ -42,7 +42,7 @@ model Answers {
 
 model StatusQuestion {
   id_status_question Int         @id() @default(autoincrement())
-  status             String
+  status_question    String
   Questions          Questions[]
 }
 

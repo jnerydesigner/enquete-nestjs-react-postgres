@@ -5,15 +5,19 @@ const prisma = new PrismaClient();
 const statusQuestions = [
   {
     id_status_question: 1,
-    status: "Ativa",
+    status_question: "Ativa",
   },
   {
     id_status_question: 2,
-    status: "Finalizada",
+    status_question: "Finalizada",
   },
   {
     id_status_question: 3,
-    status: "Deletada",
+    status_question: "Deletada",
+  },
+  {
+    id_status_question: 4,
+    status_question: "Desativada",
   },
 ];
 

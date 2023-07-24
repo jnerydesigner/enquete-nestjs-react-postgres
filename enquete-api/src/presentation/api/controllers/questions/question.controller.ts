@@ -1,3 +1,4 @@
+import { ChangeStatusDTO } from "@application/DTOs/change-status.cto";
 import { CreateQuestionDto } from "@application/DTOs/create-question.dto";
 import { FinalizedDto } from "@application/DTOs/finalized.dto";
 import { UpdateQuestionDto } from "@application/DTOs/update-question.dto";
@@ -15,7 +16,7 @@ import {
 
 @Controller("questions")
 export class QuestionController {
-  constructor(private readonly questionService: QuestionService) { }
+  constructor(private readonly questionService: QuestionService) {}
 
   @Post()
   createQuestion(@Body() body: CreateQuestionDto) {
@@ -36,6 +37,11 @@ export class QuestionController {
   @Put("/finalized-enquete")
   finalizedEnquete(@Body() body: FinalizedDto) {
     return this.questionService.finalizedEnquete(body);
+  }
+
+  @Put("/change-status")
+  changeStatusEnquete(@Body() body: ChangeStatusDTO) {
+    return this.questionService.changeStatus(body);
   }
 
   @Put("/update-enquete")

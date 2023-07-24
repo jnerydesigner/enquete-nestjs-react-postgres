@@ -1,3 +1,4 @@
+import { StatusQuestionEnum } from "@application/enums/status-question.enum";
 import { QuestionEntity } from "@entities/question.entity";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
@@ -124,6 +125,9 @@ export class QuestionPrismaRepository
           },
         },
       },
+      orderBy: {
+        created_at: "desc",
+      },
     });
 
     return Promise.all(
@@ -196,5 +200,70 @@ export class QuestionPrismaRepository
         id_question: id,
       },
     });
+  }
+
+  async changeStatusQuestion(id: string): Promise<QuestionEntity> {
+    let existsQuestion = await this.prismaService.questions.findFirst({
+      where: {
+        id_question: id,
+      },
+      include: {
+        status: {
+          select: {
+            id_status_question: true,
+            status_question: true,
+          },
+        },
+      },
+    });
+
+    if (!existsQuestion) {
+      throw new HttpException(
+        "Questions don´t no exists",
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (existsQuestion.status.id_status_question === StatusQuestionEnum.Ativa) {
+      await this.prismaService.questions.update({
+        where: {
+          id_question: id,
+        },
+        data: {
+          id_status_question: StatusQuestionEnum.Desativada,
+        },
+      });
+
+      existsQuestion = await this.prismaService.questions.findFirst({
+        where: {
+          id_question: id,
+        },
+        include: {
+          status: true,
+        },
+      });
+
+      return QuestionMapper.toDomainWithStatus(existsQuestion);
+    }
+
+    await this.prismaService.questions.update({
+      where: {
+        id_question: id,
+      },
+      data: {
+        id_status_question: StatusQuestionEnum.Ativa,
+      },
+    });
+
+    existsQuestion = await this.prismaService.questions.findFirst({
+      where: {
+        id_question: id,
+      },
+      include: {
+        status: true,
+      },
+    });
+
+    return QuestionMapper.toDomainWithStatus(existsQuestion);
   }
 }
